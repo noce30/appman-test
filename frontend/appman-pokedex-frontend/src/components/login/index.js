@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import UserService from '../../api/user';
 
 class Login extends Component {
-  state = {
-    password: '',
-    userName: ''
+  constructor () {
+    super()
+    this.state = {
+      password: '',
+      userName: ''
+    }
+    this.userService = new UserService()
   }
 
   onInputChange (e) {
@@ -14,8 +19,15 @@ class Login extends Component {
   }
 
   handleLogin () {
-    //handle login here
-    this.props.history.push('/pokedexes')
+    this.userService.login(this.state).then((res) => {
+      if(res.message) {
+        alert(res.message)
+      }
+      else {
+        sessionStorage.setItem("currentUserId", res[0]._id);
+        this.props.history.push('/pokedexes')
+      }
+    })
   }
 
   render () {
@@ -45,7 +57,7 @@ class Login extends Component {
           />
         </div>
         <div>
-          <button className="action" onClick={() => this.handleLogin()}>Sign In</button>
+          <button className="action" onClick={this.handleLogin.bind(this)}>Sign In</button>
         </div>
         <Link to="/signup/">Don't have an account?</Link>
       </div>

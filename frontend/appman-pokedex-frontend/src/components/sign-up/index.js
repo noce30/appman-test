@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import UserService from '../../api/user';
 
 class SignUp extends Component {
-  state = {
-    password: '',
-    userName: ''
+  constructor () {
+    super()
+    this.state = {
+      password: '',
+      userName: ''
+    }
+    this.userService = new UserService()
   }
 
   onInputChange (e) {
@@ -14,8 +19,20 @@ class SignUp extends Component {
   }
 
   handleCreateAccount () {
-    //handle create here
-    this.props.history.push('/login')
+    const { password, userName } = this.state
+    if (!password.length || !userName.length) {
+      alert('Plesase input user name!')
+    }
+    else {
+      this.userService.signUp(this.state).then((res) => {
+        if (res.message) {
+          alert(res.message)
+        }
+        else {
+          this.props.history.push('/login')
+        }
+      })
+    }
   }
 
   render () {
@@ -45,7 +62,7 @@ class SignUp extends Component {
           />
         </div>
         <div>
-          <button className="action" onClick={() => this.handleCreateAccount()}>Create Account</button>
+          <button className="action" onClick={this.handleCreateAccount.bind(this)}>Create Account</button>
         </div>
         <Link to="/login/">Already have an account?</Link>
       </div>

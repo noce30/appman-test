@@ -1,13 +1,24 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
 import PropTypes from 'prop-types'
+import PokemonService from '../../api/pokemon';
 
 class PokodexItem extends Component {
-  addPokedex () {
-    this.props.history.push('/pokedex/5')
+  constructor () {
+    super()
+    this.pokemonService = new PokemonService()
+  }
+  addPokemon (id) {
+    const currentUserId = sessionStorage.getItem("currentUserId");
+    const data = { pokemonId: id, userId: currentUserId }
+    this.pokemonService.addPokemon(data).then((res) => {
+      if (res.message) {
+        alert(res.message)
+      }
+    })
   }
   render () {
-    const { imageUrl, name, type, hp, attack, resistance } = this.props.item
+    const { _id, imageUrl, name, type, hp, attack, resistance } = this.props.item
     return (
       <div className="pokemon">
         <div className="image">
@@ -19,14 +30,14 @@ class PokodexItem extends Component {
           <p>HP: <span>{hp}</span></p>
           <p>ATK: <span>{attack || 10}</span></p>
           <p>RES: <span>{resistance || 3}</span></p>
-          {this.props.isShowAddButton && <button onClick={() => this.addPokedex()}>Add to Pokedex</button>}
+          {this.props.isShowAddButton && <button onClick={() => this.addPokemon(_id)}>Add to Pokedex</button>}
         </div>
       </div>
     );
   }
 }
 
-PokodexItem.propTypes= {
+PokodexItem.propTypes = {
   imageUrl: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
