@@ -10,6 +10,7 @@ class Login extends Component {
       userName: ''
     }
     this.userService = new UserService()
+    this.handleLogin = this.handleLogin.bind(this)
   }
 
   onInputChange (e) {
@@ -57,7 +58,7 @@ class Login extends Component {
           />
         </div>
         <div>
-          <button className="action" onClick={this.handleLogin.bind(this)}>Sign In</button>
+          <button className="action" onClick={this.handleLogin}>Sign In</button>
         </div>
         <Link to="/signup/">Don't have an account?</Link>
       </div>

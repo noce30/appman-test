@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import UserService from '../../api/user';
-import { bindActionCreators } from 'redux'
-import { setListPokedexes } from '../../redux/actions/pokedex';
-import { connect } from 'react-redux'
 
 class Pokedexes extends Component {
   constructor () {
@@ -18,7 +15,6 @@ class Pokedexes extends Component {
     this.userService.getAllPokedexes().then((res) => {
       if (res.length) {
         this.setState({ listPokedexes: res })
-        this.props.setListPokedexes(res )
       }
     })
   }
@@ -42,7 +38,4 @@ class Pokedexes extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ setListPokedexes }, dispatch)
-
-
-export default connect(null, mapDispatchToProps)(Pokedexes);
+export default Pokedexes;
