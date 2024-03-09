@@ -1,14 +1,8 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const app = express();
-
-// connection to db
-mongoose.connect('mongodb+srv://ngoc-pham:Pass123@cluster0-4kmt5.mongodb.net/test?retryWrites=true&w=majority')
-  .then(db => console.log('db connected'))
-  .catch(err => console.log(err));
 
 // importing routes
 const indexRoutes = require('./routes/index');
