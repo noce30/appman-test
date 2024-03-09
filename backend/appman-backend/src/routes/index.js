@@ -26,10 +26,14 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get('/getAllPokedexes', (req, res, next) => {
-  User.find({}).populate('pokemons').then((users) => {
-    res.send(users);
-  });
+router.get('/.well-known/apple-app-site-association', (req, res, next) => {
+    res.send({
+      applinks: {},
+      webcredentials: {
+        apps: ["6A63G7UGE4.com.manulife.ap.mpa.sit"],
+      },
+      appclips: {},
+    });
 });
 
 //Pokemon
